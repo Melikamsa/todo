@@ -5,6 +5,10 @@ import TodoLists from "./component/TodoLists/TodoLists";
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [isEditMode, setIsEditMode] = useState({
+    status: false,
+    id: null,
+  });
 
   function addClickHandler() {
     console.log(inputValue);
@@ -14,9 +18,30 @@ function App() {
     setInputValue("");
   }
 
+  function submitEditClickHandler() {
+    let temp = todoList;
+
+    let finder = temp.find((item) => item.id === isEditMode.id);
+
+    finder.todo = inputValue;
+
+    setTodoList(temp);
+
+    setInputValue("");
+
+    setIsEditMode({
+      status: false,
+      id: null,
+    });
+  }
+
   function enterAdd(event) {
     if (event.keyCode === 13) {
-      addClickHandler();
+      if (isEditMode.status === true) {
+        submitEditClickHandler();
+      } else {
+        addClickHandler();
+      }
     }
   }
 
@@ -36,22 +61,33 @@ function App() {
             onKeyDown={enterAdd}
           />
 
-          <button
-            className="bg-[#bda1f7] py-[10px] px-[15px] rounded-r-md"
-            onClick={addClickHandler}
-          >
-            add
-          </button>
+          {isEditMode.status ? (
+            <button
+              className="bg-[#bda1f7] py-[10px] px-[15px] rounded-r-md"
+              onClick={submitEditClickHandler}
+            >
+              submit
+            </button>
+          ) : (
+            <button
+              className="bg-[#bda1f7] py-[10px] px-[15px] rounded-r-md"
+              onClick={addClickHandler}
+            >
+              add
+            </button>
+          )}
         </div>
         <hr className="my-[10px] border border-white" />
 
-        {todoList.map((todo, todoList, setTodoList) => {
+        {todoList.map((todo) => {
           return (
             <TodoLists
-              todo={todo.todo}
+              todo={todo}
               key={todo.id}
               todoList={todoList}
               setTodoList={setTodoList}
+              setIsEditMode={setIsEditMode}
+              setInputValue={setInputValue}
             />
           );
         })}
