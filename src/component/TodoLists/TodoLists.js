@@ -1,3 +1,4 @@
+
 function TodoLists({
   todo,
   todoList,
@@ -6,9 +7,7 @@ function TodoLists({
   setInputValue,
 }) {
   function deleteClickHandler() {
-    let temp = todoList;
-
-    setTodoList(temp.filter((elem) => elem.id !== todo.id));
+    setTodoList(todoList.filter((elem) => elem.id !== todo.id));
   }
 
   function editClickHandler() {
@@ -21,9 +20,9 @@ function TodoLists({
 
   return (
     <>
-      <section className=" grid gap-[10px]">
+      <section className="grid gap-[10px]">
         <div className="my-[5px] rounded-md py-[10px] px-[5px] flex items-center justify-between bg-[#bda1f7]">
-          <p className=" text-[17px] xl:text-[22px]">{todo.todo}</p>
+          <p className="text-[17px] xl:text-[22px]">{todo.todo}</p>
           <div className="flex gap-[5px]">
             <button
               className="cursor-pointer border-2 border-[#9370DB] p-[5px] rounded-md xl:text-[15px]"
